@@ -1,10 +1,13 @@
+using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
 using Shop.Domain.Queries.Requests;
 using Shop.Domain.Queries.Responses;
 using Shop.Domain.Repositories;
 
 namespace Shop.Domain.Commands.Handlers
 {
-    public class FindCustomerByIdHandler : IFindCustomerByIdHandler
+    public class FindCustomerByIdHandler : IRequestHandler<FindCustomerByIdRequest, FindCustomerByIdResponse>
     {
         ICustomerRepository _repository;
 
@@ -12,12 +15,11 @@ namespace Shop.Domain.Commands.Handlers
         {
             _repository = repository;
         }
-        public FindCustomerByIdResponse Handle(FindCustomerByIdRequest command)
-        {
-            // TODO: Lógica de leitura se houver
 
-            // Retorna o resultado
-            return _repository.GetCustomerById(command.Id);
+        public Task<FindCustomerByIdResponse> Handle(FindCustomerByIdRequest request, CancellationToken cancellationToken)
+        {
+            var result = _repository.GetCustomerById(request.Id);
+            return Task.FromResult(result);
         }
     }
 }

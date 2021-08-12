@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,12 +34,10 @@ namespace Shop
         {
 
             services.AddControllers();
-            services.AddTransient<ICreateCustomerHandler, CreateCustomerHandler>();
-            services.AddTransient<IFindCustomerByIdHandler, FindCustomerByIdHandler>();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<IEmailService, EmailService>();
 
-
+            services.AddMediatR(Assembly.GetExecutingAssembly());
 
             services.AddSwaggerGen(c =>
             {

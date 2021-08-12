@@ -26,3 +26,5 @@
 /Users/miltonquirino/git/lab/Shop/obj/Debug/net5.0/ref/Shop.dll
 /Users/miltonquirino/git/lab/Shop/obj/Debug/net5.0/Shop.pdb
 /Users/miltonquirino/git/lab/Shop/obj/Debug/net5.0/Shop.genruntimeconfig.cache
+/Users/miltonquirino/git/lab/Shop/bin/Debug/net5.0/MediatR.dll
+/Users/miltonquirino/git/lab/Shop/bin/Debug/net5.0/MediatR.Extensions.Microsoft.DependencyInjection.dll

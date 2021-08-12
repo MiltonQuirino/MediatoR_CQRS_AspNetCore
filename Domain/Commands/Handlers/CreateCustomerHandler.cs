@@ -1,4 +1,8 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
+using Microsoft.AspNetCore.Authentication;
 using Shop.Domain.Commands.Requests;
 using Shop.Domain.Commands.Responses;
 using Shop.Domain.Entities;
@@ -7,7 +11,9 @@ using Shop.Domain.Services;
 
 namespace Shop.Domain.Handlers
 {
-    public class CreateCustomerHandler : ICreateCustomerHandler
+    // public class CreateCustomerHandler : ICreateCustomerHandler
+
+    public class CreateCustomerHandler : IRequestHandler<CreateCustomerRequest, CreateCustomerResponse>
     {
         ICustomerRepository _repository;
         IEmailService _emailService;
@@ -18,12 +24,12 @@ namespace Shop.Domain.Handlers
             _emailService = emailService;
         }
 
-        public CreateCustomerResponse Handle(CreateCustomerRequest command)
+        public Task<CreateCustomerResponse> Handle(CreateCustomerRequest request, CancellationToken cancellationToken)
         {
             // Aplicar Fail Fast Validations
 
             // Cria a entidade
-            var customer = new Customer(command.Name, command.Email);
+            var customer = new Customer(request.Name, request.Email);
 
             // Persiste a entidade no banco
             _repository.Save(customer);
@@ -32,13 +38,15 @@ namespace Shop.Domain.Handlers
             _emailService.Send(customer.Name, customer.Email);
 
             // Retorna a resposta
-            return new CreateCustomerResponse
+            var result = new CreateCustomerResponse
             {
                 Id = customer.Id,
                 Name = customer.Name,
                 Email = customer.Email,
                 Date = DateTime.Now
             };
+
+            return Task.FromResult(result);
         }
     }
 }
